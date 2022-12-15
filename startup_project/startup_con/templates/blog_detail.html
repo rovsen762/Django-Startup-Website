@@ -1,0 +1,43 @@
+{% extends 'partials/_base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <!-- Blog Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-8">
+                    <!-- Blog Detail Start -->
+                    <div class="mb-5">
+                        <img class="img-fluid w-100 rounded mb-5" src="{{blog.image.url}}" alt="">
+                        <h1 class="mb-4">{{blog.name}}</h1>
+                        <p>{{blog.description|safe}}</p>
+                    </div>
+                    <!-- Blog Detail End -->
+                </div>
+    
+                <!-- Sidebar Start -->
+                <div class="col-lg-4">
+    
+                    <!-- Category Start -->
+                    <div class="mb-5 wow slideInUp" data-wow-delay="0.1s">
+                        <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                            <h3 class="mb-0">Categories</h3>
+                        </div>
+                        <div class="link-animated d-flex flex-column justify-content-start">
+                            {% for category in categories %}
+                            <a class="h5 fw-semi-bold bg-light rounded py-2 px-3 mb-2" href="{% url  'blogs_by_category' category.slug %}"><i class="bi bi-arrow-right me-2"></i>{{category.name}}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- Category End -->
+                </div>
+                <!-- Sidebar End -->
+            </div>
+        </div>
+    </div>
+    <!-- Blog End -->
+
+
+{% endblock %}

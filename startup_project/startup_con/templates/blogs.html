@@ -1,0 +1,89 @@
+{% extends 'partials/_base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <!-- Blog Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <!-- Blog list Start -->
+                <div class="col-lg-8">
+                    <div class="row g-5">
+                        {% for blog in blogs %}
+                        <div class="col-md-6 wow slideInUp" data-wow-delay="0.1s">
+                            <div class="blog-item bg-light rounded overflow-hidden">
+                                <div class="blog-img position-relative overflow-hidden">
+                                    <img class="img-fluid" src="{{blog.image.url}}" alt="">
+                                </div>
+                                <div class="p-4">
+                                    <div class="d-flex mb-3">
+                                        <small><i class="far fa-calendar-alt text-primary me-2"></i>{{blog.date}}</small>
+                                    </div>
+                                    <h4 class="mb-3">{{blog.name}}</h4>
+                                    <p>{{blog.description|truncatechars:35|safe}}</p>
+                                    <a class="text-uppercase" href="{% url 'blog_detail' blog.category.slug blog.id %}">Read More <i class="bi bi-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="clearfix">
+                            {% if is_paginated %}
+                    
+                                {% if page_obj.number == 1 %}
+                                    <a class="btn btn-outline-info float-right" href="?page=2">Older Posts &rarr;</a>
+                                {% endif %}
+                    
+                                {% if page_obj.has_previous %}
+                                    <a class="btn btn-outline-info" href="?page={{ page_obj.previous_page_number }}">Previous &lsaquo;</a>
+                                {% endif %}
+                    
+                                {% if page_obj.has_next and page_obj.number != 1 %}
+                                    <a class="btn btn-outline-info float-right" href="?page={{ page_obj.next_page_number }}">Next&rsaquo;</a>
+                                {% endif %}
+                    
+                    
+                            {% endif %}
+                    
+                    
+                        </div>
+                    </div>
+                </div>
+                <!-- Blog list End -->
+    
+                <!-- Sidebar Start -->
+                <div class="col-lg-4">
+                    <!-- Search Form Start -->
+                    <div class="mb-5 wow slideInUp" data-wow-delay="0.1s">
+                        <form method="GET" action="{% url 'search' %}">
+                            <div class="input-group">
+                                <input type="text" class="form-control p-3" placeholder="Keyword" name="search">
+                                
+                                <button class="btn btn-primary px-4"><i class="bi bi-search"></i></button>
+                            </div>
+                        
+                    </div>
+                    <!-- Search Form End -->
+    
+                    <!-- Category Start -->
+                    <div class="mb-5 wow slideInUp" data-wow-delay="0.1s">
+                        <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                            <h3 class="mb-0">Categories</h3>
+                        </div>
+                        <div class="link-animated d-flex flex-column justify-content-start">
+                            {% for category in categories %}
+                            <a class="h5 fw-semi-bold bg-light rounded py-2 px-3 mb-2" href="{% url  'blogs_by_category' category.slug %}"><i class="bi bi-arrow-right me-2"></i>{{category.name}}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- Category End -->
+
+                </div>
+                <!-- Sidebar End -->
+            </div>
+        </div>
+    </div>
+    <!-- Blog End -->
+
+
+{% endblock %}
