@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from .models import Blog, Category
 from django.views.generic import ListView
-# Create your views here.
+
+from django.conf import settings
+
+
+
+
 
 class BlogListView(ListView):
     model = Blog
     template_name = 'blogs.html'
     context_object_name = 'blogs'
-    paginate_by = 4
+    paginate_by = 2
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -17,10 +22,13 @@ class BlogListView(ListView):
 def blog_detail(request, category_slug , blog_id):
     blog = Blog.objects.get(category__slug=category_slug, id=blog_id)
     categories = Category.objects.all()
+   
     context = {
         'blog': blog,
-        'categories': categories
-    }
+        'categories': categories,
+        }
+        
+    
     return render(request, 'blog_detail.html', context)
 
 def category_list(request, category_slug):
